@@ -1,0 +1,129 @@
+1.Create an array of 5 integers and print all elements.
+public class Main {
+    public static void main(String[] args) {
+
+        int[] a = {10, 20, 30, 40, 50};
+
+        for(int i = 0; i < a.length; i++) {
+            System.out.println(a[i]);
+        }
+    }
+}
+2.Take 10 numbers as input and store them in an array.
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+
+        Scanner sc = new Scanner(System.in);
+
+        int[] a = new int[10];
+
+        for(int i = 0; i < 10; i++) {
+            System.out.print("Enter number: ");
+            a[i] = sc.nextInt();
+        }
+    }
+}
+3.Print the first element of an array.
+public class Main {
+    public static void main(String[] args) {
+
+        int[] a = {10, 20, 30, 40, 50};
+
+        System.out.println("First element: " + a[0]);
+    }
+}
+4.Print the last element of an array.
+public class Main {
+    public static void main(String[] args) {
+
+        int[] a = {10, 20, 30, 40, 50};
+
+        System.out.println("Last element: " + a[a.length - 1]);
+    }
+}
+5.Change the value at index 3 to 100.
+public class Main {
+    public static void main(String[] args) {
+
+        int[] a = {10, 20, 30, 40, 50};
+
+        a[3] = 100;
+
+        for(int i = 0; i < a.length; i++) {
+            System.out.println(a[i]);
+        }
+    }
+}
+
+6.Find the length of an array.
+public class Main {
+    public static void main(String[] args) {
+
+        int[] a = {10, 20, 30, 40, 50};
+
+        System.out.println("Length: " + a.length);
+    }
+}
+7.Take an index from the user and print the element at that index.
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+
+        Scanner sc = new Scanner(System.in);
+
+        int[] a = {10, 20, 30, 40, 50};
+
+        System.out.print("Enter index: ");
+        int index = sc.nextInt();
+
+        System.out.println("Element: " + a[index]);
+    }
+}
+8.Replace the first element with 0.
+public class Main {
+    public static void main(String[] args) {
+
+        int[] a = {10, 20, 30, 40, 50};
+
+        a[0] = 0;
+
+        for(int i = 0; i < a.length; i++) {
+            System.out.println(a[i]);
+        }
+    }
+}
+9.Replace the last element with -1.
+public class Main {
+    public static void main(String[] args) {
+
+        int[] a = {10, 20, 30, 40, 50};
+
+        a[a.length - 1] = -1;
+
+        for(int i = 0; i < a.length; i++) {
+            System.out.println(a[i]);
+        }
+    }
+}
+10.Print all elements using both for loop and enhanced for-each loop.
+public class Main {
+    public static void main(String[] args) {
+
+        int[] a = {10, 20, 30, 40, 50};
+
+        System.out.println("Using for loop:");
+
+        for(int i = 0; i < a.length; i++) {
+            System.out.println(a[i]);
+        }
+
+        System.out.println("Using for-each loop:");
+
+        for(int x : a) {
+            System.out.println(x);
+        }
+    }
+}
