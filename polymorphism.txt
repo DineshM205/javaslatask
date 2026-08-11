@@ -1,0 +1,218 @@
+ 1.Payment Gateway
+class Payment {
+    void pay() {
+        System.out.println("Processing payment");
+    }
+}
+
+class CreditCard extends Payment {
+    void pay() {
+        System.out.println("Payment through Credit Card");
+    }
+}
+
+class UPI extends Payment {
+    void pay() {
+        System.out.println("Payment through UPI");
+    }
+}
+
+class NetBanking extends Payment {
+    void pay() {
+        System.out.println("Payment through Net Banking");
+    }
+}
+
+class Wallet extends Payment {
+    void pay() {
+        System.out.println("Payment through Wallet");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+
+        Payment p;
+
+        p = new CreditCard();
+        p.pay();
+
+        p = new UPI();
+        p.pay();
+
+        p = new NetBanking();
+        p.pay();
+
+        p = new Wallet();
+        p.pay();
+    }
+}
+2. Employee Salary Calculation
+class Employee {
+    void calculateSalary() {
+        System.out.println("Employee salary");
+    }
+}
+
+class FullTime extends Employee {
+    void calculateSalary() {
+        System.out.println("Full-Time Salary = 30000");
+    }
+}
+
+class PartTime extends Employee {
+    void calculateSalary() {
+        System.out.println("Part-Time Salary = 15000");
+    }
+}
+
+class Contract extends Employee {
+    void calculateSalary() {
+        System.out.println("Contract Salary = 20000");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+
+        Employee e;
+
+        e = new FullTime();
+        e.calculateSalary();
+
+        e = new PartTime();
+        e.calculateSalary();
+
+        e = new Contract();
+        e.calculateSalary();
+    }
+}
+3. Notification System
+class Notification {
+    void sendNotification() {
+        System.out.println("Sending notification");
+    }
+}
+
+class Email extends Notification {
+    void sendNotification() {
+        System.out.println("Sending Email Notification");
+    }
+}
+
+class SMS extends Notification {
+    void sendNotification() {
+        System.out.println("Sending SMS Notification");
+    }
+}
+
+class PushNotification extends Notification {
+    void sendNotification() {
+        System.out.println("Sending Push Notification");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+
+        Notification n;
+
+        n = new Email();
+        n.sendNotification();
+
+        n = new SMS();
+        n.sendNotification();
+
+        n = new PushNotification();
+        n.sendNotification();
+    }
+}
+4. Vehicle Toll System
+class Vehicle {
+    void calculateToll() {
+        System.out.println("Vehicle toll");
+    }
+}
+
+class Car extends Vehicle {
+    void calculateToll() {
+        System.out.println("Car Toll = 100");
+    }
+}
+
+class Bus extends Vehicle {
+    void calculateToll() {
+        System.out.println("Bus Toll = 200");
+    }
+}
+
+class Truck extends Vehicle {
+    void calculateToll() {
+        System.out.println("Truck Toll = 300");
+    }
+}
+
+class Bike extends Vehicle {
+    void calculateToll() {
+        System.out.println("Bike Toll = 50");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+
+        Vehicle v;
+
+        v = new Car();
+        v.calculateToll();
+
+        v = new Bus();
+        v.calculateToll();
+
+        v = new Truck();
+        v.calculateToll();
+
+        v = new Bike();
+        v.calculateToll();
+    }
+}
+5. Online Video Player
+class Media {
+    void play() {
+        System.out.println("Playing media");
+    }
+}
+
+class MP4 extends Media {
+    void play() {
+        System.out.println("Playing MP4 Video");
+    }
+}
+
+class MP3 extends Media {
+    void play() {
+        System.out.println("Playing MP3 Audio");
+    }
+}
+
+class LiveStream extends Media {
+    void play() {
+        System.out.println("Playing Live Stream");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+
+        Media m;
+
+        m = new MP4();
+        m.play();
+
+        m = new MP3();
+        m.play();
+
+        m = new LiveStream();
+        m.play();
+    }
+}
