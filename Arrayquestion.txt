@@ -1,0 +1,170 @@
+1. Find the Second Largest Element
+Input:
+5
+10 25 8 40 15
+Output:
+Second Largest = 25
+import java.util.Scanner;
+public class SecondLargest {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Enter size: ");
+        int n = sc.nextInt();
+
+        int[] a = new int[n];
+
+        System.out.println("Enter elements:");
+        for (int i = 0; i < n; i++) {
+            a[i] = sc.nextInt();
+        }
+
+        int largest = a[0];
+        int secondLargest = a[0];
+
+        for (int i = 1; i < n; i++) {
+            if (a[i] > largest) {
+                secondLargest = largest;
+                largest = a[i];
+            } else if (a[i] > secondLargest && a[i] != largest) {
+                secondLargest = a[i];
+            }
+        }
+
+        System.out.println("Second Largest = " + secondLargest);
+    }
+}
+2. Search for an Element
+Input:
+5
+10 20 30 40 50
+30
+Output:
+Element found at index 2
+import java.util.Scanner;
+public class SearchElement {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Enter size: ");
+        int n = sc.nextInt();
+
+        int[] a = new int[n];
+
+        System.out.println("Enter elements:");
+        for (int i = 0; i < n; i++) {
+            a[i] = sc.nextInt();
+        }
+
+        System.out.print("Enter element to search: ");
+        int search = sc.nextInt();
+
+        for (int i = 0; i < n; i++) {
+            if (a[i] == search) {
+                System.out.println("Element found at index " + i);
+                return;
+            }
+        }
+
+        System.out.println("Element not found");
+    }
+}
+3. Count the Frequency of an Element
+Input:
+6
+10 20 10 30 10 40
+10
+Output:
+Frequency = 3
+import java.util.Scanner;
+
+public class Frequency {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Enter size: ");
+        int n = sc.nextInt();
+
+        int[] a = new int[n];
+
+        System.out.println("Enter elements:");
+        for (int i = 0; i < n; i++) {
+            a[i] = sc.nextInt();
+        }
+
+        System.out.print("Enter element: ");
+        int search = sc.nextInt();
+
+        int count = 0;
+
+        for (int i = 0; i < n; i++) {
+            if (a[i] == search) {
+                count++;
+            }
+        }
+
+        System.out.println("Frequency = " + count);
+    }
+}
+4. Find the Sum of Array Elements
+Input:
+5
+10 20 30 40 50
+Output:
+Sum = 150
+import java.util.Scanner;
+public class ArraySum {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Enter size: ");
+        int n = sc.nextInt();
+
+        int[] a = new int[n];
+        int sum = 0;
+
+        System.out.println("Enter elements:");
+        for (int i = 0; i < n; i++) {
+            a[i] = sc.nextInt();
+            sum = sum + a[i];
+        }
+
+        System.out.println("Sum = " + sum);
+    }
+}
+5. Count Even and Odd Numbers
+Input:
+6
+10 15 20 25 30 35
+Output:
+Even = 3
+Odd = 3
+import java.util.Scanner;
+
+public class EvenOddCount {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Enter size: ");
+        int n = sc.nextInt();
+
+        int[] a = new int[n];
+
+        int even = 0;
+        int odd = 0;
+
+        System.out.println("Enter elements:");
+        for (int i = 0; i < n; i++) {
+            a[i] = sc.nextInt();
+
+            if (a[i] % 2 == 0) {
+                even++;
+            } else {
+                odd++;
+            }
+        }
+
+        System.out.println("Even = " + even);
+        System.out.println("Odd = " + odd);
+    }
+}
