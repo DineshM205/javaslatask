@@ -1,0 +1,510 @@
+1.CRUD Operation with html?
+ index.html
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Employee CRUD</title>
+</head>
+<body>
+
+<h2>Employee Management</h2>
+
+<form action="employee" method="post">
+
+    Employee ID:
+    <input type="number" name="id"><br><br>
+
+    Employee Name:
+    <input type="text" name="name"><br><br>
+
+    Department:
+    <input type="text" name="department"><br><br>
+
+    Salary:
+    <input type="text" name="salary"><br><br>
+
+    <button type="submit" name="action" value="insert">Insert</button>
+
+    <button type="submit" name="action" value="update">Update</button>
+
+    <button type="submit" name="action" value="delete">Delete</button>
+
+    <button type="submit" name="action" value="read">View</button>
+
+</form>
+
+</body>
+</html>
+
+Employee.java
+public class Employee {
+
+    private int id;
+    private String name;
+    private String department;
+    private double salary;
+
+    public Employee(int id, String name, String department, double salary) {
+        this.id = id;
+        this.name = name;
+        this.department = department;
+        this.salary = salary;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getDepartment() {
+        return department;
+    }
+
+    public double getSalary() {
+        return salary;
+    }
+}
+EmployeeDAO.java
+import java.util.List;
+
+public interface EmployeeDAO {
+
+    void insert(Employee e);
+
+    List<Employee> getAll();
+
+    void update(Employee e);
+
+    void delete(int id);
+}
+EmployeeDAOImpl.java
+import java.sql.*;
+import java.util.*;
+
+public class EmployeeDAOImpl implements EmployeeDAO {
+
+    Connection con;
+
+    public EmployeeDAOImpl() throws Exception {
+
+        con = DriverManager.getConnection(
+            "jdbc:mysql://localhost:3306/company_db",
+            "root",
+            "root"
+        );
+    }
+
+    public void insert(Employee e) {
+
+        try {
+
+            String sql = "INSERT INTO employee VALUES (?, ?, ?, ?)";
+
+            PreparedStatement ps = con.prepareStatement(sql);
+
+            ps.setInt(1, e.getId());
+            ps.setString(2, e.getName());
+            ps.setString(3, e.getDepartment());
+            ps.setDouble(4, e.getSalary());
+
+            ps.executeUpdate();
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public List<Employee> getAll() {
+
+        List<Employee> list = new ArrayList<>();
+
+        try {
+
+            String sql = "SELECT * FROM employee";
+
+            Statement st = con.createStatement();
+
+            ResultSet rs = st.executeQuery(sql);
+
+            while (rs.next()) {
+
+                Employee e = new Employee(
+                    rs.getInt("emp_id"),
+                    rs.getString("emp_name"),
+                    rs.getString("department"),
+                    rs.getDouble("salary")
+                );
+
+                list.add(e);
+            }
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        return list;
+    }
+
+    public void update(Employee e) {
+
+        try {
+
+            String sql = "UPDATE employee SET emp_name=?, department=?, salary=? WHERE emp_id=?";
+
+            PreparedStatement ps = con.prepareStatement(sql);
+
+            ps.setString(1, e.getName());
+            ps.setString(2, e.getDepartment());
+            ps.setDouble(3, e.getSalary());
+            ps.setInt(4, e.getId());
+
+            ps.executeUpdate();
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public void delete(int id) {
+
+        try {
+
+            String sql = "DELETE FROM employee WHERE emp_id=?";
+
+            PreparedStatement ps = con.prepareStatement(sql);
+
+            ps.setInt(1, id);
+
+            ps.executeUpdate();
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+}
+EmployeeServlet.java
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.List;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.*;
+
+@WebServlet("/employee")
+public class EmployeeServlet extends HttpServlet {
+
+    EmployeeDAOImpl dao;
+
+    public void init() {
+
+        try {
+            dao = new EmployeeDAOImpl();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    protected void doPost(
+            HttpServletRequest request,
+            HttpServletResponse response)
+            throws ServletException, IOException {
+
+        String action = request.getParameter("action");
+
+        int id = Integer.parseInt(request.getParameter("id"));
+
+        if (action.equals("insert")) {
+
+            String name = request.getParameter("name");
+            String department = request.getParameter("department");
+            double salary =
+                    Double.parseDouble(request.getParameter("salary"));
+
+            Employee e =
+                    new Employee(id, name, department, salary);
+
+            dao.insert(e);
+
+            response.getWriter().println("Employee Inserted");
+
+        }
+
+        else if (action.equals("update")) {
+
+            String name = request.getParameter("name");
+            String department = request.getParameter("department");
+            double salary =
+                    Double.parseDouble(request.getParameter("salary"));
+
+            Employee e =
+                    new Employee(id, name, department, salary);
+
+            dao.update(e);
+
+            response.getWriter().println("Employee Updated");
+
+        }
+
+        else if (action.equals("delete")) {
+
+            dao.delete(id);
+
+            response.getWriter().println("Employee Deleted");
+
+        }
+
+        else if (action.equals("read")) {
+
+            List<Employee> list = dao.getAll();
+
+            PrintWriter out = response.getWriter();
+
+            out.println("<h2>Employee Details</h2>");
+
+            for (Employee e : list) {
+
+                out.println(
+                    e.getId() + " " +
+                    e.getName() + " " +
+                    e.getDepartment() + " " +
+                    e.getSalary() +
+                    "<br>"
+                );
+            }
+        }
+    }
+}
+1.CRUD Operation without html?
+Employee.java
+public class Employee {
+
+    int id;
+    String name;
+    String department;
+    double salary;
+
+    public Employee(int id, String name, String department, double salary) {
+        this.id = id;
+        this.name = name;
+        this.department = department;
+        this.salary = salary;
+    }
+}
+EmployeeDAO.java
+import java.util.List;
+
+public interface EmployeeDAO {
+
+    void insert(Employee e);
+
+    List<Employee> read();
+
+    void update(Employee e);
+
+    void delete(int id);
+}
+EmployeeDAOImpl.java
+import java.sql.*;
+import java.util.*;
+
+public class EmployeeDAOImpl implements EmployeeDAO {
+
+    Connection con;
+
+    public EmployeeDAOImpl() throws Exception {
+
+        con = DriverManager.getConnection(
+            "jdbc:mysql://localhost:3306/company_db",
+            "root",
+            "root"
+        );
+    }
+
+    public void insert(Employee e) {
+
+        try {
+
+            String sql = "insert into employee values(?,?,?,?)";
+
+            PreparedStatement ps = con.prepareStatement(sql);
+
+            ps.setInt(1, e.id);
+            ps.setString(2, e.name);
+            ps.setString(3, e.department);
+            ps.setDouble(4, e.salary);
+
+            ps.executeUpdate();
+
+            System.out.println("Inserted successfully");
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public List<Employee> read() {
+
+        List<Employee> list = new ArrayList<>();
+
+        try {
+
+            String sql = "select * from employee";
+
+            Statement st = con.createStatement();
+
+            ResultSet rs = st.executeQuery(sql);
+
+            while (rs.next()) {
+
+                Employee e = new Employee(
+                    rs.getInt(1),
+                    rs.getString(2),
+                    rs.getString(3),
+                    rs.getDouble(4)
+                );
+
+                list.add(e);
+            }
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        return list;
+    }
+
+    public void update(Employee e) {
+
+        try {
+
+            String sql =
+                "update employee set emp_name=?, department=?, salary=? where emp_id=?";
+
+            PreparedStatement ps = con.prepareStatement(sql);
+
+            ps.setString(1, e.name);
+            ps.setString(2, e.department);
+            ps.setDouble(3, e.salary);
+            ps.setInt(4, e.id);
+
+            ps.executeUpdate();
+
+            System.out.println("Updated successfully");
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public void delete(int id) {
+
+        try {
+
+            String sql =
+                "delete from employee where emp_id=?";
+
+            PreparedStatement ps = con.prepareStatement(sql);
+
+            ps.setInt(1, id);
+
+            ps.executeUpdate();
+
+            System.out.println("Deleted successfully");
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+}
+Main.java
+import java.util.*;
+
+public class Main {
+
+    public static void main(String[] args) throws Exception {
+
+        Scanner sc = new Scanner(System.in);
+
+        EmployeeDAOImpl dao = new EmployeeDAOImpl();
+
+        System.out.println("1. Insert");
+        System.out.println("2. Read");
+        System.out.println("3. Update");
+        System.out.println("4. Delete");
+
+        System.out.print("Enter choice: ");
+        int choice = sc.nextInt();
+
+        if (choice == 1) {
+
+            System.out.print("Enter ID: ");
+            int id = sc.nextInt();
+
+            System.out.print("Enter Name: ");
+            String name = sc.next();
+
+            System.out.print("Enter Department: ");
+            String department = sc.next();
+
+            System.out.print("Enter Salary: ");
+            double salary = sc.nextDouble();
+
+            Employee e =
+                new Employee(id, name, department, salary);
+
+            dao.insert(e);
+        }
+
+        else if (choice == 2) {
+
+            List<Employee> list = dao.read();
+
+            for (Employee e : list) {
+
+                System.out.println(
+                    e.id + " " +
+                    e.name + " " +
+                    e.department + " " +
+                    e.salary
+                );
+            }
+        }
+
+        else if (choice == 3) {
+
+            System.out.print("Enter ID: ");
+            int id = sc.nextInt();
+
+            System.out.print("Enter Name: ");
+            String name = sc.next();
+
+            System.out.print("Enter Department: ");
+            String department = sc.next();
+
+            System.out.print("Enter Salary: ");
+            double salary = sc.nextDouble();
+
+            Employee e =
+                new Employee(id, name, department, salary);
+
+            dao.update(e);
+        }
+
+        else if (choice == 4) {
+
+            System.out.print("Enter ID: ");
+            int id = sc.nextInt();
+
+            dao.delete(id);
+        }
+
+        else {
+
+            System.out.println("Invalid choice");
+        }
+    }
+}
